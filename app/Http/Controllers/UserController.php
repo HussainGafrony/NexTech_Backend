@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -42,9 +43,9 @@ class UserController extends Controller
         ]);
         $state = 0;
         $email = $request->input('email');
-        if (str_contains($email,'Super')) {
+        if (str_contains($email, 'Super')) {
             $state = 1;
-        } else{
+        } else {
             $state = 0;
         }
 
@@ -71,48 +72,36 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function login(Request $request)
     {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = User::where('email', $request->email)->first();
+            $address = address::where('user_id', $user->id)->where('default', '=', 0)->first();
+            if ($user) {
+
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                return response(['user' => auth()->user(), 'access_token' => $token, 'address' => $address]);
+            } else {
+                $response = 'User does not exist';
+                return response($response, 422);
+            }
+        } else {
+            return response('Login details are not valid', 322);
+        }
+
+
+
+
+
+
     }
 }
