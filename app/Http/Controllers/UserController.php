@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\address;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,7 +16,6 @@ class UserController extends Controller
     {
         return User::all();
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -72,8 +70,6 @@ class UserController extends Controller
 
     }
 
-
-
     public function login(Request $request)
     {
 
@@ -98,9 +94,19 @@ class UserController extends Controller
             return response('Login details are not valid', 322);
         }
 
+    }
 
+    public function update(Request $request)
+    {
 
+        $user = User::where('email', $request->email)->first();
+        $user->update([
+            'firstname' => ($request->firstname) ? $request->firstname : $user->firstname,
+            'lastname' => ($request->lastname) ? $request->lastname : $user->lastname,
+            'password' => ($request->password) ? Hash::make($request->password) : $user->password,
 
+        ]);
+        return response(['Updated' => Response::HTTP_ACCEPTED, 'user' => $user]);
 
 
     }
