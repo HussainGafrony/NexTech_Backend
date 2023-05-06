@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\address;
-use App\Models\User;
 use Illuminate\Http\Response;
 
 class AddressController extends Controller
 {
 
-
+    public function index(Request $request)
+    {
+        $address = address::where('user_id','=', $request->user_id)->get();
+        return response(['Address' => $address]);
+        // return address::all();
+    }
     public function store(Request $request)
     {
 
@@ -46,7 +50,7 @@ class AddressController extends Controller
     }
     public function update(Request $request)
     {
-       
+
 
         if ($request->default == 1) {
             $adress = address::where('default', '=', $request->default);
@@ -56,7 +60,7 @@ class AddressController extends Controller
             $default = 0;
         }
         $address = address::find($request->id);
-        
+
         $address->update([
             'address_line_1' => ($request->address_line_1) ? $request->address_line_1 : $address->address_line_1,
             'city' => ($request->city) ? $request->city : $address->city,

@@ -25,5 +25,6 @@ Route::post('user', [UserController::class, 'store']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('update', [UserController::class, 'update']);
 //Address
+Route::post('address', [AddressController::class, 'index']);
 Route::post('update', [AddressController::class, 'update']);
 Route::post('store', [AddressController::class, 'store']);
