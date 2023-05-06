@@ -13,7 +13,7 @@ class AddressController extends Controller
 
     public function store(Request $request)
     {
-      
+
         $request->validate([
             'address_line_1' => 'required|string',
             'city' => 'required|string',
@@ -24,14 +24,14 @@ class AddressController extends Controller
             'user_id' => 'required'
         ]);
         if ($request->default == 1) {
-            $adress = address::where('default','=',$request->default);
+            $adress = address::where('default', '=', $request->default);
             $adress->update(['default' => 0]);
             $default = 1;
         } else {
             $default = 0;
         }
         $address = new address;
-     
+
         $address->create([
             'address_line_1' => $request->address_line_1,
             'city' => $request->city,
@@ -46,11 +46,21 @@ class AddressController extends Controller
     }
     public function update(Request $request)
     {
-        $address = address::where('user_id', $request->user_id)->first();
+       
+
+        if ($request->default == 1) {
+            $adress = address::where('default', '=', $request->default);
+            $adress->update(['default' => 0]);
+            $default = 1;
+        } else {
+            $default = 0;
+        }
+        $address = address::find($request->id);
+        
         $address->update([
             'address_line_1' => ($request->address_line_1) ? $request->address_line_1 : $address->address_line_1,
             'city' => ($request->city) ? $request->city : $address->city,
-            'default' => ($request->default) ? $request->default : $address->default,
+            'default' => $default,
             'country' => ($request->country) ? $request->country : $address->country,
             'postcode' => ($request->postcode) ? $request->postcode : $address->postcode,
             'phone' => ($request->phone) ? $request->phone : $address->phone,
