@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,6 @@ Route::post('update', [UserController::class, 'update']);
 Route::post('address', [AddressController::class, 'index']);
 Route::post('update', [AddressController::class, 'update']);
 Route::post('store', [AddressController::class, 'store']);
+
+//Products
+Route::get('products', [ProductsController::class, 'index']);

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\category;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\products>
@@ -16,8 +17,14 @@ class ProductsFactory extends Factory
      */
     public function definition()
     {
+        $faker = (new \Faker\Factory())::create();
         return [
-            //
+            'name' => $faker->name(),
+            'description' => $faker->paragraph(1),
+            'price' => $faker->numberBetween(1, 10),
+            'image' => $faker->imageUrl($width = 400, $height = 400),
+            'category_id' => (\App\Models\category::factory()->create())->id,
+
         ];
     }
 }
