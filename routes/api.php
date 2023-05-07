@@ -31,4 +31,7 @@ Route::post('update', [AddressController::class, 'update']);
 Route::post('store', [AddressController::class, 'store']);
 
 //Products
-Route::get('products', [ProductsController::class, 'index']);
+Route::get('product', [ProductsController::class, 'index']);
+Route::post('productS', [ProductsController::class, 'store']);
+Route::post('productU', [ProductsController::class, 'update']);
+Route::post('productD', [ProductsController::class, 'destroy']);
