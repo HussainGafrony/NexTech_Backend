@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\address;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AddressSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class AddressSeeder extends Seeder
      */
     public function run()
     {
-        //
+        return address::factory()->count(50)->create();
     }
 }
