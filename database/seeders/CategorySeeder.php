@@ -16,6 +16,6 @@ class CategorySeeder extends Seeder
     public function run()
     {
         // category::truncate();
-        return category::factory()->count(100)->create();
+        return category::factory()->count(50)->create();
     }
 }

@@ -36,6 +36,7 @@ Route::get('product', [ProductsController::class, 'index']);
 Route::post('productS', [ProductsController::class, 'store']);
 Route::post('productU', [ProductsController::class, 'update']);
 Route::post('product', [ProductsController::class, 'destroy']);
+Route::get('search/{word}', [ProductsController::class, 'search']);
 //Category
 Route::get('category', [CategoryController::class, 'index']);
 Route::post('categoryS', [CategoryController::class, 'store']);

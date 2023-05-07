@@ -38,6 +38,7 @@ class ProductsController extends Controller
                 'description' => $request->description,
                 'image' => 'product/' . $photo_name,
                 'price' => $request->price,
+                'QTY' => $request->QTY,
                 'category_id' => $request->category_id,
 
             ]);
@@ -46,6 +47,7 @@ class ProductsController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
+                'QTY' => $request->QTY,
                 'category_id' => $request->category_id,
 
             ]);
@@ -66,6 +68,7 @@ class ProductsController extends Controller
                 'description' => $request->description,
                 'image' => 'product/' . $photo_name,
                 'price' => $request->price,
+                'QTY' => $request->QTY,
                 'category_id' => $request->category_id,
 
             ]);
@@ -74,6 +77,7 @@ class ProductsController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
+                'QTY' => $request->QTY,
                 'category_id' => $request->category_id,
 
             ]);
@@ -89,5 +93,13 @@ class ProductsController extends Controller
 
         return response(['Deleted' => Response::HTTP_OK]);
     }
+
+    public function search($word)
+    {
+        $paginate = request()->header('paginate');
+        $product = products::where('name', 'like', '%' . $word . '%');
+        return response(['Search' => Response::HTTP_OK, 'Product' => $product->paginate($paginate)]);
+    }
+
 
 }

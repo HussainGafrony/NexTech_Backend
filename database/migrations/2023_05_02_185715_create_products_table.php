@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('image');
             $table->float('price');
+            $table->integer('QTY');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
         });

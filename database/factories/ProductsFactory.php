@@ -23,7 +23,9 @@ class ProductsFactory extends Factory
             'description' => $faker->paragraph(1),
             'price' => $faker->numberBetween(1, 10),
             'image' => $faker->imageUrl($width = 400, $height = 400),
-            'category_id' => (\App\Models\category::factory()->create())->id,
+            'category_id' => category::inRandomOrder()->first()->id,
+            'QTY' => $faker->numberBetween(1, 10),
+
 
         ];
     }
