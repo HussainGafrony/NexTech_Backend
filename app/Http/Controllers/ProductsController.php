@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\products;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -52,7 +51,7 @@ class ProductsController extends Controller
             ]);
         }
 
-        return response(['created' => Response::HTTP_ACCEPTED]);
+        return response(['created' => Response::HTTP_CREATED]);
     }
 
     public function update(Request $request)
@@ -88,7 +87,7 @@ class ProductsController extends Controller
         unlink($product->image);
         $product->delete();
 
-        return response(['Deleted' => Response::HTTP_GONE]);
+        return response(['Deleted' => Response::HTTP_OK]);
     }
 
 }

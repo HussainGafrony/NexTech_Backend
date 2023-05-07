@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +35,9 @@ Route::post('store', [AddressController::class, 'store']);
 Route::get('product', [ProductsController::class, 'index']);
 Route::post('productS', [ProductsController::class, 'store']);
 Route::post('productU', [ProductsController::class, 'update']);
-Route::post('productD', [ProductsController::class, 'destroy']);
+Route::post('product', [ProductsController::class, 'destroy']);
+//Category
+Route::get('category', [CategoryController::class, 'index']);
+Route::post('categoryS', [CategoryController::class, 'store']);
+Route::post('categoryU', [CategoryController::class, 'update']);
+Route::post('category', [CategoryController::class, 'destroy']);
