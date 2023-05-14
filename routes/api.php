@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,3 +43,10 @@ Route::get('category', [CategoryController::class, 'index']);
 Route::post('categoryS', [CategoryController::class, 'store']);
 Route::post('categoryU', [CategoryController::class, 'update']);
 Route::post('category', [CategoryController::class, 'destroy']);
+//Order
+Route::post('order', [OrderController::class, 'index']);
+Route::post('orderS', [OrderController::class, 'store']);
+Route::post('orderU', [OrderController::class, 'update']);
+Route::post('orderD', [OrderController::class, 'destroy']);
+Route::post('delete_orderDetails', [OrderController::class, 'delete_OrderDetailsID']);
+

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -17,12 +18,7 @@ class UserController extends Controller
         return User::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
 
@@ -72,27 +68,26 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = User::where('email', $request->email)->first();
-            $address = address::where('user_id', $user->id)->where('default', '=', 0)->first();
-            if ($user) {
-
-                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                return response(['user' => auth()->user(), 'access_token' => $token, 'address' => $address]);
-            } else {
-                $response = 'User does not exist';
-                return response($response, 422);
-            }
-        } else {
-            return response('Login details are not valid', 322);
+        try {
+            $credentials = $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+        } catch (ValidationException $exception) {
+            return response(['error' => $exception->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+        if (!Auth::attempt($credentials)) {
+            return response(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response(['error' => 'User does not exist'], Response::HTTP_NOT_FOUND);
+        }
+        $address = address::where('user_id', $user->id)->where('default', '=', 0)->where('default', '=', 1)->first();
+
+        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+        return response(['user' => auth()->user(), 'access_token' => $token, 'address' => $address]);
 
     }
 
@@ -107,7 +102,6 @@ class UserController extends Controller
 
         ]);
         return response(['Updated' => Response::HTTP_ACCEPTED, 'user' => $user]);
-
 
     }
 }
